@@ -10,7 +10,7 @@ package learningjava.realworldobjects;
  *
  * @author kipsu
  */
-public class SO {
+public class SO implements Man {
 	
 	double bloodAlcohol = 0;
 	int weight = 73;

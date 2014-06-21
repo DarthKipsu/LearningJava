@@ -12,6 +12,7 @@ package learningjava.realworldobjects;
 
 public class RealWorldObjects {
 
+	
 	/**
 	 * @param args the command line arguments
 	 */

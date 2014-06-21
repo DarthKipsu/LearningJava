@@ -10,7 +10,7 @@ package learningjava.realworldobjects;
  *
  * @author kipsu
  */
-public class Jolla {
+public class Jolla implements Cellphone {
 	boolean activated = true;
 	boolean recharging = false;
 	int batteryLevel = 75;
@@ -27,5 +27,5 @@ public class Jolla {
 		if(batteryLevel==100) {
 			recharging = false;
 		}
-	}	
+	}
 }
