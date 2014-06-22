@@ -14,9 +14,9 @@ import java.util.*;
 public class TowersOfHanoi_stacks {
 
     public static void createPegs(int nPegs) {
-        List<Stack<Integer>> pegs = new ArrayList<>();
+        ArrayList<Stack<Integer>> pegs = new ArrayList();
         for (int i = 0; i < 3; i++) {
-            pegs.add(new Stack<Integer>());
+            pegs.add(new Stack());
         }
         for (int i = 0; i < nPegs; i++) {
             pegs.get(0).push(nPegs - i);
