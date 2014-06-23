@@ -34,6 +34,7 @@ public class SuffixArray {
         System.out.println(string + ", length: " + string.length());
         for (int i=0; i<string.length(); i++) {
             System.out.print(suffixArray[i].get() + " ");
+            System.out.print(suffixArray[i].index() + " ");
             System.out.println(suffixArray[i].sIndex());
         }
         System.out.println("");
@@ -44,33 +45,22 @@ public class SuffixArray {
         for (int i=0; i<string.length(); i++) {
             suffix[i] = new Suffix(string.substring(i), i + 1);
         }
-        //Suffix[] reordered = alphabeticalOrder(suffix);
+        alphabeticalOrder(suffix);
+        for (int i=0; i<suffix.length; i++) {
+            suffix[i].setIndex(i + 1);
+        }
         return suffix;
     }
     
-    /*public static Suffix[] alphabeticalOrder(Suffix[] original) {
-        SuffixNode node = new SuffixNode(original[0]);        
-        for (int i=1; i<original.length; i++) {
-            addChildNodes(original[i], node);
+    public static void alphabeticalOrder(Suffix[] original) {
+        for (int i=0; i<original.length - 1; i++) {
+            for (int j=i+1; j<original.length; j++) {
+                if (original[i].get().compareToIgnoreCase(original[j].get()) > 0) {
+                    Suffix temp = original[i];
+                    original[i] = original[j];
+                    original[j] = temp;
+                }
+            }
         }
-        
-        Suffix[] reordered = new Suffix[original.length];
-        return reordered;
     }
-    
-    public static void addChildNodes(Suffix value, SuffixNode parentNode) {
-        if (value.get().compareTo(parentNode.getData().get()) >= 0) {
-            if (parentNode.right != null) {
-                addChildNodes(value, parentNode.right);
-            } else {
-                parentNode.right = new SuffixNode(value);
-            }
-        } else {
-            if (parentNode.left != null) {
-                addChildNodes(value, parentNode.left);
-            } else {
-                parentNode.left = new SuffixNode(value);
-            }
-        }
-    }*/
 }
