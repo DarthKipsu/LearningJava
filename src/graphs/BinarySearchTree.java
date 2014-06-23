@@ -12,7 +12,7 @@ package graphs;
  */
 public class BinarySearchTree {
     
-    public static Node createNode(int[] ar) {
+    public static Node nodeInOrder(int[] ar) {
         Node node = new Node(ar[0]);
         for (int i=1; i<ar.length; i++) {
             addChildNodes(ar[i], node);
@@ -35,6 +35,16 @@ public class BinarySearchTree {
             }
         }
     }
+    
+    public static void printInOrder(Node node) {
+        if (node == null) {
+            return;
+        }
+        
+        System.out.print(node.getData() + " ");
+        printInOrder(node.left);
+        printInOrder(node.right);
+    }
 
     /**
      * @param args the command line arguments
@@ -43,12 +53,14 @@ public class BinarySearchTree {
         int[] ar1 = {8, 3, 10, 1, 6, 14, 4, 7, 13};
         int[] ar2 = {10, 12, 15, 7, 2, 23, 9, 14, 21};
         
-        Node node1 = createNode(ar1);
-        Node node2 = createNode(ar2);
+        Node node1 = nodeInOrder(ar1);
+        Node node2 = nodeInOrder(ar2);
         
-        System.out.println(node1.left.right.right.getData());
-        System.out.println(node1.right.right.left.getData());
-        System.out.println(node1.left.left.getData());
+        System.out.println("Print nodes in order:");
+        printInOrder(node1);
+        System.out.println("");
+        printInOrder(node2);
+        System.out.println("");
     }
     
 }
