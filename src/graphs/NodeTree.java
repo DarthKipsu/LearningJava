@@ -7,9 +7,9 @@
 package graphs;
 
 /**
- * Exercise for making a binary tree.
+ * Exercise for making a node tree.
  */
-public class BinaryTree {
+public class NodeTree {
     
     /**
      * This will print out the sum of the trees left-hand side.
