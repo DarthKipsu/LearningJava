@@ -21,7 +21,6 @@ public class BinaryTree {
             sum += ar[i];
         }
         System.out.println("Sum from left side is: " + sum);
-        System.out.println("");
     }
     
     /**
@@ -52,6 +51,15 @@ public class BinaryTree {
         node.right = addChildNodes(ar, i * 2 + 2);
         return node;
     }
+    
+    public static void printPostOrder(Node node) {
+        if (node == null) {
+            return;
+        }
+        printPostOrder(node.left);
+        printPostOrder(node.right);
+        System.out.print(node.getData() + " ");
+    }
 
     /**
      * @param args the command line arguments
@@ -61,13 +69,23 @@ public class BinaryTree {
         int[] ar2 = {1, 7, 5, 2, 6, 0, 9, 3, 7, 5, 11, 0, 0, 4, 0};
         int[] ar3 = {5, 3, 4, 11, 13, 15, 21, 10, 4, 7, 2, 8, 0, 9, 0};
         int[] ar4 = {1, 2, 3, 4, 5, 6, 7};
+        int[] ar5 = {10, 1, 2, 3, 4, 5, 6};
+        int[] ar6 = {1, 7, 5, 2, 6, 0, 9, 3, 7, 5, 11, 0, 0, 4, 0};
         printArray(ar1);
         printArray(ar2);
         printArray(ar3);
         printArray(ar4);
+        System.out.println("");
         
         Node node1 = createNode(ar4);
-        System.out.println(node1);
+        Node node2 = createNode(ar5);
+        Node node3 = createNode(ar6);
+        
+        System.out.println("Post order nodes:");
+        printPostOrder(node2);
+        System.out.println("");
+        printPostOrder(node3);
+        System.out.println("");
     }
     
 }
