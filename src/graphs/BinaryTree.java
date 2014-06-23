@@ -24,6 +24,11 @@ public class BinaryTree {
         System.out.println("");
     }
     
+    /**
+     * Processes the input array into Node tree.
+     * @param ar tree in array form
+     * @return Node tree
+     */
     public static Node createNode(int[]ar) {
         Node node = new Node(ar[0]);
         node.left = addChildNodes(ar, 1);
@@ -31,6 +36,12 @@ public class BinaryTree {
         return node;
     }
     
+    /**
+     * Adds child Nodes to a parent Node.
+     * @param ar tree in array form
+     * @param i index in the array
+     * @return Child Node
+     */
     public static Node addChildNodes(int[] ar, int i) {
         if (i >= ar.length || ar[i] == 0) {
             return null;
