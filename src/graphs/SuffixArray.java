@@ -100,7 +100,8 @@ public class SuffixArray {
                 begin = middle + 1;
                 binarySearch(suffixArray, search, begin, end, i+1);
             } else {
-                System.out.println("   p == t[S[" + middle + "].." + end + "], Search ended at " + middle + ".");
+                System.out.println("   p == t[S[" + middle + "].." + end + "],");
+                System.out.println("   Search ended. Character p was found at S[" + middle + "] = " + suffixArray[middle-1].sIndex() + ".");
             }
         }
     }
