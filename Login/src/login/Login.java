@@ -41,7 +41,7 @@ public class Login extends Application {
         grid.setPadding(new Insets(25,25,25,25));
         
         Text sceneTitle = new Text("Welcome!");
-        sceneTitle.setFont(Font.font("Tahome", FontWeight.NORMAL, 20));
+        sceneTitle.setId("welcome-text");
         grid.add(sceneTitle, 0, 0, 2, 1);
         
         Label userName = new Label("Uer Name:");
@@ -67,15 +67,15 @@ public class Login extends Application {
             
             @Override
             public void handle(ActionEvent e) {
-                actiontarget.setFill(Color.FIREBRICK);
+                actiontarget.setId("actiontarget");
                 actiontarget.setText("Sign in button pressed!");
             }
         });
         
-        grid.setGridLinesVisible(true);
-        
         Scene scene = new Scene(grid, 300, 275);
         primaryStage.setScene(scene);
+        scene.getStylesheets().add
+            (Login.class.getResource("Login.css").toExternalForm());
         primaryStage.show();
     }
 
