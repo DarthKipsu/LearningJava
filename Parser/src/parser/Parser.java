@@ -12,7 +12,7 @@ package parser;
  */
 public class Parser {
     
-    public static Node createNode(String input) {
+    public Node parse(String input) {
         Node root = new Node();
         Node current = root;
         String tempNum = "";
@@ -41,8 +41,13 @@ public class Parser {
      */
     public static void main(String[] args) {
         String input1 = "2+2";
+        String input2 = "1+2+3+4+5+6";
+        String input3 = "11+22+33+44";
+        Parser parser = new Parser();
         
-        Node node1 = createNode(input1);
+        Node node1 = parser.parse(input1);
+        Node node2 = parser.parse(input2);
+        Node node3 = parser.parse(input3);
     }
     
 }
