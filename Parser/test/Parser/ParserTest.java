@@ -100,4 +100,34 @@ public class ParserTest {
         assertEquals(expected1, num1.getValue(), 0.01);
         assertEquals(expected2, num2.getValue(), 0.01);
     }
+    
+    @Test
+    public void sumCommedNumbers() {
+        String input = "5,4+1,0544";
+        Parser parser = new Parser();
+        
+        Node node = parser.parse(input);
+        Number num1 = (Number)node.getLeft();
+        Number num2 = (Number)node.getRight();
+        double expected1 = 5.4;
+        double expected2 = 1.0544;
+        
+        assertEquals(expected1, num1.getValue(), 0.01);
+        assertEquals(expected2, num2.getValue(), 0.01);
+    }
+    
+    @Test
+    public void sumNumbersWithSpaces() {
+        String input = "5,4 + 1,0544";
+        Parser parser = new Parser();
+        
+        Node node = parser.parse(input);
+        Number num1 = (Number)node.getLeft();
+        Number num2 = (Number)node.getRight();
+        double expected1 = 5.4;
+        double expected2 = 1.0544;
+        
+        assertEquals(expected1, num1.getValue(), 0.01);
+        assertEquals(expected2, num2.getValue(), 0.01);
+    }
 }

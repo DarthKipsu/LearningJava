@@ -26,6 +26,11 @@ public class Parser {
                     current.setLeft(number);
                     tempNum = "";
                     break;
+                case ',':
+                    tempNum += '.';
+                    break;
+                case ' ':
+                    break;
                 default:
                     tempNum += input.charAt(i);
             }
