@@ -9,7 +9,7 @@ package parser;
 /**
  * Node class used with parser exercise.
  */
-public class Node {
+public abstract class Node {
     
     private Node left;
     private Node right;
@@ -29,5 +29,7 @@ public class Node {
     public void setRight(Node right) {
         this.right = right;
     }
+    
+    public abstract Double getValue();
     
 }

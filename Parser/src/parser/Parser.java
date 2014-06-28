@@ -13,7 +13,7 @@ package parser;
 public class Parser {
     
     public Node parse(String input) {
-        Node root = new Node();
+        Node root = new Sum();
         Node current = root;
         String tempNum = "";
         for (int i=0; i<input.length(); i++) {
@@ -45,14 +45,11 @@ public class Parser {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        String input1 = "2+2";
-        String input2 = "1+2+3+4+5+6";
-        String input3 = "11+22+33+44";
+        String input1 = "1 + 2";
         Parser parser = new Parser();
         
         Node node1 = parser.parse(input1);
-        Node node2 = parser.parse(input2);
-        Node node3 = parser.parse(input3);
+        System.out.println(input1 + " = " + node1.getValue());
     }
     
 }

@@ -130,4 +130,16 @@ public class ParserTest {
         assertEquals(expected1, num1.getValue(), 0.01);
         assertEquals(expected2, num2.getValue(), 0.01);
     }
+    
+    @Test
+    public void getValue() {
+        String input = "1+22+333+4444";
+        Parser parser = new Parser();
+        
+        Node node = parser.parse(input);
+        Double value = node.getValue();
+        Double expected = 4800.0;
+        
+        assertEquals(expected, value, 0.01);
+    }
 }

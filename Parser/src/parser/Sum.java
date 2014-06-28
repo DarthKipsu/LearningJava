@@ -11,5 +11,10 @@ package parser;
  * @author kipsu
  */
 public class Sum extends Node {
+
+    public Double getValue() {
+        Double value = this.getLeft().getValue() + this.getRight().getValue();
+        return value;
+    }
     
 }
