@@ -22,5 +22,10 @@ public class Node {
     public int getData() { // But I can still get the data
         return data;
     }
+
+    @Override
+    public String toString() {
+        return  data + "";
+    }
     
 }

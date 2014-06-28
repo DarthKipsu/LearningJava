@@ -58,7 +58,7 @@ public class NodeTree {
         }
         printPostOrder(node.left);
         printPostOrder(node.right);
-        System.out.print(node.getData() + " ");
+        System.out.print(node + " ");
     }
 
     /**
