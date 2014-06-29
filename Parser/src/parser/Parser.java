@@ -28,12 +28,16 @@ public class Parser {
                     tempNum = "";
                     break;
                 case '-':
-                    Node sub = new Sub();
-                    current.setRight(sub);
-                    current = sub;
-                    number = new Number(new Double(tempNum));
-                    current.setLeft(number);
-                    tempNum = "";
+                    if (i==0) {
+                        tempNum += input.charAt(i);
+                    } else {
+                        Node sub = new Sub();
+                        current.setRight(sub);
+                        current = sub;
+                        number = new Number(new Double(tempNum));
+                        current.setLeft(number);
+                        tempNum = "";
+                    }
                     break;
                 case ',':
                     tempNum += '.';
