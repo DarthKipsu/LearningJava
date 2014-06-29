@@ -17,12 +17,21 @@ public class Parser {
         Node current = root;
         String tempNum = "";
         for (int i=0; i<input.length(); i++) {
+            Number number;
             switch(input.charAt(i)) {
                 case '+':
                     Node sum = new Sum();
                     current.setRight(sum);
                     current = sum;
-                    Number number = new Number(new Double(tempNum));
+                    number = new Number(new Double(tempNum));
+                    current.setLeft(number);
+                    tempNum = "";
+                    break;
+                case '-':
+                    Node sub = new Sub();
+                    current.setRight(sub);
+                    current = sub;
+                    number = new Number(new Double(tempNum));
                     current.setLeft(number);
                     tempNum = "";
                     break;

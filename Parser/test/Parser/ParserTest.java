@@ -142,4 +142,16 @@ public class ParserTest {
         
         assertEquals(expected, value, 0.01);
     }
+    
+    @Test
+    public void substract() {
+        String input = "1-2";
+        Parser parser = new Parser();
+        
+        Node node = parser.parse(input);
+        Double value = node.getValue();
+        Double expected = -1.0;
+        
+        assertEquals(expected, value, 0.01);
+    }
 }
