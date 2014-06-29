@@ -15,6 +15,7 @@ public class Parser {
     public Node parse(String input) {
         Node root = new Sum();
         Node current = root;
+        Node tempNode = null;
         String tempNum = "";
         for (int i=0; i<input.length(); i++) {
             Number number;
@@ -23,9 +24,14 @@ public class Parser {
                     Node sum = new Sum();
                     current.setRight(sum);
                     current = sum;
-                    number = new Number(new Double(tempNum));
-                    current.setLeft(number);
-                    tempNum = "";
+                    if (tempNode == null) {
+                        number = new Number(new Double(tempNum));
+                        current.setLeft(number);
+                        tempNum = "";
+                    } else {
+                        current.setLeft(tempNode);
+                        tempNode = null;
+                    }
                     break;
                 case '-':
                     if (i==0) {
@@ -34,10 +40,25 @@ public class Parser {
                         Node sub = new Sub();
                         current.setRight(sub);
                         current = sub;
-                        number = new Number(new Double(tempNum));
-                        current.setLeft(number);
-                        tempNum = "";
+                        if (tempNode == null) {
+                            number = new Number(new Double(tempNum));
+                            current.setLeft(number);
+                            tempNum = "";
+                        } else {
+                            current.setLeft(tempNode);
+                            tempNode = null;
+                        }
                     }
+                    break;
+                case '(':
+                    String parentheses = "";
+                    int j = i+1;
+                    while (input.charAt(j)!=')') {
+                        parentheses += input.charAt(j);
+                        j += 1;
+                    }
+                    tempNode = parse(parentheses);
+                    i = j;
                     break;
                 case ',':
                     tempNum += '.';
@@ -59,10 +80,13 @@ public class Parser {
      */
     public static void main(String[] args) {
         String input1 = "1 + 2";
+        String input2 = "1+(2-1)+5";
         Parser parser = new Parser();
         
         Node node1 = parser.parse(input1);
+        Node node2 = parser.parse(input2);
         System.out.println(input1 + " = " + node1.getValue());
+        System.out.println(input2 + " = " + node2.getValue());
     }
     
 }

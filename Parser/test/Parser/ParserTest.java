@@ -166,4 +166,25 @@ public class ParserTest {
         
         assertEquals(expected, value, 0.01);
     }
+    
+    @Test
+    public void parentheses() {
+        String input = "1+(2-1)+5";
+        Parser parser = new Parser();
+        
+        Node node = parser.parse(input);
+        Double value = node.getValue();
+        Number num1 = (Number)node.getLeft();
+        Number num2 = (Number)node.getRight().getLeft().getLeft();
+        Number num3 = (Number)node.getRight().getLeft().getRight();
+        Number num4 = (Number)node.getRight().getRight();
+        double expected1 = 1.0;
+        double expected2 = 2.0;
+        double expected3 = 5.0;
+        
+        assertEquals(expected1, num1.getValue(), 0.01);
+        assertEquals(expected2, num2.getValue(), 0.01);
+        assertEquals(expected1, num3.getValue(), 0.01);
+        assertEquals(expected3, num4.getValue(), 0.01);
+    }
 }
