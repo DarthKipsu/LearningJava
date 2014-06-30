@@ -187,4 +187,28 @@ public class ParserTest {
         assertEquals(expected1, num3.getValue(), 0.01);
         assertEquals(expected3, num4.getValue(), 0.01);
     }
+    
+    @Test
+    public void secondLevelParentheses() {
+        String input = "5-(4+(2-1)-1)";
+        Parser parser = new Parser();
+        
+        Node node = parser.parse(input);
+        Double value = node.getValue();
+        Number num1 = (Number)node.getLeft();
+        Number num2 = (Number)node.getRight().getLeft();
+        Number num3 = (Number)node.getRight().getRight().getRight();
+        Number num4 = (Number)node.getRight().getRight().getLeft().getLeft();
+        Number num5 = (Number)node.getRight().getRight().getLeft().getRight();
+        double expected1 = 1.0;
+        double expected2 = 2.0;
+        double expected4 = 4.0;
+        double expected5 = 5.0;
+        
+        assertEquals(expected5, num1.getValue(), 0.01);
+        assertEquals(expected4, num2.getValue(), 0.01);
+        assertEquals(expected1, num3.getValue(), 0.01);
+        assertEquals(expected2, num4.getValue(), 0.01);
+        assertEquals(expected1, num5.getValue(), 0.01);
+    }
 }

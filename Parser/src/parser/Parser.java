@@ -13,13 +13,20 @@ package parser;
 public class Parser {
     
     public Node parse(String input) {
+        index = 0;
+        return parse(input, '\0');
+    }
+    
+    private int index;
+    
+    private Node parse(String input, char endChar) {
         Node root = new Sum();
         Node current = root;
         Node tempNode = null;
         String tempNum = "";
-        for (int i=0; i<input.length(); i++) {
+        for (; index<input.length() && input.charAt(index) != endChar; index++) {
             Number number;
-            switch(input.charAt(i)) {
+            switch(input.charAt(index)) {
                 case '+':
                     Node sum = new Sum();
                     current.setRight(sum);
@@ -34,8 +41,8 @@ public class Parser {
                     }
                     break;
                 case '-':
-                    if (i==0) {
-                        tempNum += input.charAt(i);
+                    if (index==0) {
+                        tempNum += input.charAt(index);
                     } else {
                         Node sub = new Sub();
                         current.setRight(sub);
@@ -51,26 +58,26 @@ public class Parser {
                     }
                     break;
                 case '(':
-                    String parentheses = "";
-                    int j = i+1;
-                    while (input.charAt(j)!=')') {
-                        parentheses += input.charAt(j);
-                        j += 1;
-                    }
-                    tempNode = parse(parentheses);
-                    i = j;
+                    index += 1;
+                    tempNode = parse(input, ')');
                     break;
                 case ',':
                     tempNum += '.';
                     break;
                 case ' ':
+                case ')':
                     break;
                 default:
-                    tempNum += input.charAt(i);
+                    tempNode = null;
+                    tempNum += input.charAt(index);
             }
         }
-        Number number = new Number(new Double(tempNum));
-        current.setRight(number);
+        if (tempNode == null) {
+            Number number = new Number(new Double(tempNum));
+            current.setRight(number);
+        } else {
+            current.setRight(tempNode);
+        }
         
         return root.getRight();
     }
@@ -80,7 +87,7 @@ public class Parser {
      */
     public static void main(String[] args) {
         String input1 = "1 + 2";
-        String input2 = "1+(2-1)+5";
+        String input2 = "5-(4+(2-1)-1)";
         Parser parser = new Parser();
         
         Node node1 = parser.parse(input1);
