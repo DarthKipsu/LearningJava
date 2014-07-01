@@ -38,7 +38,6 @@ public class Parser {
                     tempNode = parse(input, ')');
                     break;
                 case '*':
-                    index += 1;
                     Node multi = new Multi();
                     if (tempNode == null) {
                         number = new Number(new Double(tempNum));
@@ -48,14 +47,18 @@ public class Parser {
                         multi.setLeft(tempNode);
                         tempNode = null;
                     }
-                    while (index<input.length()
-                        && input.charAt(index)!='*'
-                        && input.charAt(index)!='+'
-                        && input.charAt(index)!='-') {
-                        if (input.charAt(index)!=' ') {
+                    while (index+1<input.length()
+                        && input.charAt(index+1)!=endChar
+                        && input.charAt(index+1)!='*'
+                        && input.charAt(index+1)!='+'
+                        && input.charAt(index+1)!='-') {
+                        index += 1;
+                        if (input.charAt(index)=='(') {
+                            index += 1;
+                            tempNode = parse(input, ')');
+                        } else if (input.charAt(index)!=' ') {
                             tempNum += input.charAt(index);
                         }
-                        index += 1;
                     }
                     if (tempNode == null) {
                         number = new Number(new Double(tempNum));
@@ -118,8 +121,7 @@ public class Parser {
     public static void main(String[] args) {
         String input1 = "1 + 2";
         String input2 = "5-(4+(2-1)-1)";
-        String input3 = "2*5";
-        //String input3 = "2+3*5*4-2*3";
+        String input3 = "2+3*(3*4.5*1-5)*(4-2)*3";
         Parser parser = new Parser();
         
         Node node1 = parser.parse(input1);

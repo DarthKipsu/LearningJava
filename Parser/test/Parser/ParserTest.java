@@ -229,4 +229,37 @@ public class ParserTest {
         assertEquals(expected2, num2.getValue(), 0.01);
         assertEquals(expected3, value, 0.01);
     }
+    
+    @Test
+    public void multiplicatingParentheses() {
+        String input = "(1+2) * (4-1)";
+        Parser parser = new Parser();
+        
+        Node node = parser.parse(input);
+        Double value = node.getValue();
+        Number num1 = (Number)node.getLeft().getLeft();
+        Number num2 = (Number)node.getLeft().getRight();
+        Number num3 = (Number)node.getRight().getLeft();
+        Number num4 = (Number)node.getRight().getRight();
+        double expected1 = 1.0;
+        double expected2 = 2.0;
+        double expected4 = 4.0;
+        
+        assertEquals(expected1, num1.getValue(), 0.01);
+        assertEquals(expected2, num2.getValue(), 0.01);
+        assertEquals(expected4, num3.getValue(), 0.01);
+        assertEquals(expected1, num4.getValue(), 0.01);
+    }
+    
+    @Test
+    public void severalMultiplicatingWithParentheses() {
+        String input = "2+3*(3*4.5*1-5)*(4-2)*3";
+        Parser parser = new Parser();
+        
+        Node node = parser.parse(input);
+        Double value = node.getValue();
+        double expected1 = 155.0;
+        
+        assertEquals(expected1, value, 0.01);
+    }
 }
