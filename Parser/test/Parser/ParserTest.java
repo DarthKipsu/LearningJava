@@ -9,7 +9,6 @@ package Parser;
 import java.util.HashMap;
 import java.util.Map;
 import static org.hamcrest.CoreMatchers.instanceOf;
-import org.hamcrest.core.IsInstanceOf;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -20,6 +19,7 @@ import parser.Node;
 import parser.Parser;
 import parser.Sum;
 import parser.Number;
+import parser.Var;
 
 /**
  *
@@ -305,5 +305,29 @@ public class ParserTest {
         double expected1 = -2.5;
         
         assertEquals(expected1, value, 0.01);
+    }
+    
+    @Test
+    public void vairableWithCoefficient() {
+        String input = "2x + 1,5y";
+        Parser parser = new Parser();
+        
+        Node node = parser.parse(input);
+        Map map = new HashMap();
+        map.put('x', -2.5);
+        map.put('y', 8.0);
+        Number num1 = (Number)node.getLeft().getLeft();
+        Var num2 = (Var)node.getLeft().getRight();
+        Number num3 = (Number)node.getRight().getLeft();
+        Var num4 = (Var)node.getRight().getRight();
+        double expected1 = 2.0;
+        double expected2 = -2.5;
+        double expected3 = 1.5;
+        double expected4 = 8.0;
+        
+        assertEquals(expected1, num1.getValue(map), 0.01);
+        assertEquals(expected2, num2.getValue(map), 0.01);
+        assertEquals(expected3, num3.getValue(map), 0.01);
+        assertEquals(expected4, num4.getValue(map), 0.01);
     }
 }

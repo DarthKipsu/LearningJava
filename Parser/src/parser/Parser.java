@@ -6,8 +6,9 @@
 
 package parser;
 
+import static java.lang.Character.isDigit;
+import static java.lang.Character.isLetter;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -72,10 +73,8 @@ public class Parser {
                     }
                     break;
                 default:
-                    if (Character.isLetter(input.charAt(index))) {
-                        System.out.println("x, " + input.charAt(index));
-                        Node var = new Var(input.charAt(index));
-                        tempNode = var;
+                    if (isLetter(input.charAt(index))) {
+                        setVariableToTemp(input);
                         break;
                     }
                     tempNode = null;
@@ -125,13 +124,26 @@ public class Parser {
             if (input.charAt(index)=='(') {
                 index += 1;
                 tempNode = parse(input, ')');
-            } else if (Character.isLetter(input.charAt(index))) {
-                System.out.println("x, " + input.charAt(index));
+            } else if (isLetter(input.charAt(index))) {
                 Node var = new Var(input.charAt(index));
                 tempNode = var;
             } else if (input.charAt(index)!=' ') {
                 tempNum += input.charAt(index);
             }
+        }
+    }
+    
+    private void setVariableToTemp(String input) {
+        Node var = new Var(input.charAt(index));
+        if (index!=0 && (isDigit(input.charAt(index-1))
+        || isLetter(input.charAt(index-1)))) {
+            Multi multi = new Multi();
+            setLeftNode(multi);
+            tempNode = var;
+            setRightNode(multi);
+            tempNode = multi;
+        } else {
+            tempNode = var;
         }
     }
 
