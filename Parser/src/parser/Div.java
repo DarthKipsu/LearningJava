@@ -6,14 +6,16 @@
 
 package parser;
 
+import java.util.Map;
+
 /**
  *
  * @author kipsu
  */
 public class Div extends Node {
     
-    public Double getValue() {
-        Double value = this.getLeft().getValue() / this.getRight().getValue();
+    public Double getValue(Map map) {
+        Double value = this.getLeft().getValue(map) / this.getRight().getValue(map);
         return value;
     }
     

@@ -6,6 +6,8 @@
 
 package parser;
 
+import java.util.Map;
+
 /**
  * Node class used with parser exercise.
  */
@@ -30,6 +32,6 @@ public abstract class Node {
         this.right = right;
     }
     
-    public abstract Double getValue();
+    public abstract Double getValue(Map map);
     
 }

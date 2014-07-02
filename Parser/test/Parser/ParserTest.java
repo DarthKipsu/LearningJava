@@ -6,6 +6,8 @@
 
 package Parser;
 
+import java.util.HashMap;
+import java.util.Map;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.After;
@@ -61,8 +63,8 @@ public class ParserTest {
         Number right = (Number)node.getRight();
         
         assertThat(node, instanceOf(Sum.class));
-        assertEquals(result, left.getValue(), 0.01);
-        assertEquals(result, right.getValue(), 0.01);
+        assertEquals(result, left.getValue(new HashMap()), 0.01);
+        assertEquals(result, right.getValue(new HashMap()), 0.01);
     }
     
     @Test
@@ -80,10 +82,10 @@ public class ParserTest {
         double expected3 = 333;
         double expected4 = 4444;
         
-        assertEquals(expected1, num1.getValue(), 0.01);
-        assertEquals(expected2, num2.getValue(), 0.01);
-        assertEquals(expected3, num3.getValue(), 0.01);
-        assertEquals(expected4, num4.getValue(), 0.01);
+        assertEquals(expected1, num1.getValue(new HashMap()), 0.01);
+        assertEquals(expected2, num2.getValue(new HashMap()), 0.01);
+        assertEquals(expected3, num3.getValue(new HashMap()), 0.01);
+        assertEquals(expected4, num4.getValue(new HashMap()), 0.01);
     }
     
     @Test
@@ -97,8 +99,8 @@ public class ParserTest {
         double expected1 = 5.4;
         double expected2 = 1.0544;
         
-        assertEquals(expected1, num1.getValue(), 0.01);
-        assertEquals(expected2, num2.getValue(), 0.01);
+        assertEquals(expected1, num1.getValue(new HashMap()), 0.01);
+        assertEquals(expected2, num2.getValue(new HashMap()), 0.01);
     }
     
     @Test
@@ -112,8 +114,8 @@ public class ParserTest {
         double expected1 = 5.4;
         double expected2 = 1.0544;
         
-        assertEquals(expected1, num1.getValue(), 0.01);
-        assertEquals(expected2, num2.getValue(), 0.01);
+        assertEquals(expected1, num1.getValue(new HashMap()), 0.01);
+        assertEquals(expected2, num2.getValue(new HashMap()), 0.01);
     }
     
     @Test
@@ -127,8 +129,8 @@ public class ParserTest {
         double expected1 = 5.4;
         double expected2 = 1.0544;
         
-        assertEquals(expected1, num1.getValue(), 0.01);
-        assertEquals(expected2, num2.getValue(), 0.01);
+        assertEquals(expected1, num1.getValue(new HashMap()), 0.01);
+        assertEquals(expected2, num2.getValue(new HashMap()), 0.01);
     }
     
     @Test
@@ -137,7 +139,7 @@ public class ParserTest {
         Parser parser = new Parser();
         
         Node node = parser.parse(input);
-        Double value = node.getValue();
+        Double value = node.getValue(new HashMap());
         Double expected = 4800.0;
         
         assertEquals(expected, value, 0.01);
@@ -149,7 +151,7 @@ public class ParserTest {
         Parser parser = new Parser();
         
         Node node = parser.parse(input);
-        Double value = node.getValue();
+        Double value = node.getValue(new HashMap());
         Double expected = -1.0;
         
         assertEquals(expected, value, 0.01);
@@ -161,7 +163,7 @@ public class ParserTest {
         Parser parser = new Parser();
         
         Node node = parser.parse(input);
-        Double value = node.getValue();
+        Double value = node.getValue(new HashMap());
         Double expected = -3.0;
         
         assertEquals(expected, value, 0.01);
@@ -173,7 +175,7 @@ public class ParserTest {
         Parser parser = new Parser();
         
         Node node = parser.parse(input);
-        Double value = node.getValue();
+        Double value = node.getValue(new HashMap());
         Number num1 = (Number)node.getLeft();
         Number num2 = (Number)node.getRight().getLeft().getLeft();
         Number num3 = (Number)node.getRight().getLeft().getRight();
@@ -182,10 +184,10 @@ public class ParserTest {
         double expected2 = 2.0;
         double expected3 = 5.0;
         
-        assertEquals(expected1, num1.getValue(), 0.01);
-        assertEquals(expected2, num2.getValue(), 0.01);
-        assertEquals(expected1, num3.getValue(), 0.01);
-        assertEquals(expected3, num4.getValue(), 0.01);
+        assertEquals(expected1, num1.getValue(new HashMap()), 0.01);
+        assertEquals(expected2, num2.getValue(new HashMap()), 0.01);
+        assertEquals(expected1, num3.getValue(new HashMap()), 0.01);
+        assertEquals(expected3, num4.getValue(new HashMap()), 0.01);
     }
     
     @Test
@@ -194,7 +196,7 @@ public class ParserTest {
         Parser parser = new Parser();
         
         Node node = parser.parse(input);
-        Double value = node.getValue();
+        Double value = node.getValue(new HashMap());
         Number num1 = (Number)node.getLeft();
         Number num2 = (Number)node.getRight().getLeft();
         Number num3 = (Number)node.getRight().getRight().getRight();
@@ -205,11 +207,11 @@ public class ParserTest {
         double expected4 = 4.0;
         double expected5 = 5.0;
         
-        assertEquals(expected5, num1.getValue(), 0.01);
-        assertEquals(expected4, num2.getValue(), 0.01);
-        assertEquals(expected1, num3.getValue(), 0.01);
-        assertEquals(expected2, num4.getValue(), 0.01);
-        assertEquals(expected1, num5.getValue(), 0.01);
+        assertEquals(expected5, num1.getValue(new HashMap()), 0.01);
+        assertEquals(expected4, num2.getValue(new HashMap()), 0.01);
+        assertEquals(expected1, num3.getValue(new HashMap()), 0.01);
+        assertEquals(expected2, num4.getValue(new HashMap()), 0.01);
+        assertEquals(expected1, num5.getValue(new HashMap()), 0.01);
     }
     
     @Test
@@ -218,15 +220,15 @@ public class ParserTest {
         Parser parser = new Parser();
         
         Node node = parser.parse(input);
-        Double value = node.getValue();
+        Double value = node.getValue(new HashMap());
         Number num1 = (Number)node.getLeft();
         Number num2 = (Number)node.getRight();
         double expected1 = 5.0;
         double expected2 = 2.0;
         double expected3 = 10.0;
         
-        assertEquals(expected1, num1.getValue(), 0.01);
-        assertEquals(expected2, num2.getValue(), 0.01);
+        assertEquals(expected1, num1.getValue(new HashMap()), 0.01);
+        assertEquals(expected2, num2.getValue(new HashMap()), 0.01);
         assertEquals(expected3, value, 0.01);
     }
     
@@ -236,7 +238,7 @@ public class ParserTest {
         Parser parser = new Parser();
         
         Node node = parser.parse(input);
-        Double value = node.getValue();
+        Double value = node.getValue(new HashMap());
         Number num1 = (Number)node.getLeft().getLeft();
         Number num2 = (Number)node.getLeft().getRight();
         Number num3 = (Number)node.getRight().getLeft();
@@ -245,10 +247,10 @@ public class ParserTest {
         double expected2 = 2.0;
         double expected4 = 4.0;
         
-        assertEquals(expected1, num1.getValue(), 0.01);
-        assertEquals(expected2, num2.getValue(), 0.01);
-        assertEquals(expected4, num3.getValue(), 0.01);
-        assertEquals(expected1, num4.getValue(), 0.01);
+        assertEquals(expected1, num1.getValue(new HashMap()), 0.01);
+        assertEquals(expected2, num2.getValue(new HashMap()), 0.01);
+        assertEquals(expected4, num3.getValue(new HashMap()), 0.01);
+        assertEquals(expected1, num4.getValue(new HashMap()), 0.01);
     }
     
     @Test
@@ -257,7 +259,7 @@ public class ParserTest {
         Parser parser = new Parser();
         
         Node node = parser.parse(input);
-        Double value = node.getValue();
+        Double value = node.getValue(new HashMap());
         double expected1 = 155.0;
         
         assertEquals(expected1, value, 0.01);
@@ -269,8 +271,38 @@ public class ParserTest {
         Parser parser = new Parser();
         
         Node node = parser.parse(input);
-        Double value = node.getValue();
+        Double value = node.getValue(new HashMap());
         double expected1 = 0.2;
+        
+        assertEquals(expected1, value, 0.01);
+    }
+    
+    @Test
+    public void variable() {
+        String input = "x + 1";
+        Parser parser = new Parser();
+        
+        Node node = parser.parse(input);
+        Map map = new HashMap();
+        map.put('x', 5.0);
+        Double value = node.getValue(map);
+        double expected1 = 6.0;
+        
+        assertEquals(expected1, value, 0.01);
+    }
+    
+    @Test
+    public void multipleVariables() {
+        String input = "x * (y + z)";
+        Parser parser = new Parser();
+        
+        Node node = parser.parse(input);
+        Map map = new HashMap();
+        map.put('x', 5.0);
+        map.put('y', 1.5);
+        map.put('z', -2.0);
+        Double value = node.getValue(map);
+        double expected1 = -2.5;
         
         assertEquals(expected1, value, 0.01);
     }

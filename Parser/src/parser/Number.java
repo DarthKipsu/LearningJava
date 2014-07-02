@@ -6,6 +6,8 @@
 
 package parser;
 
+import java.util.Map;
+
 /**
  *
  * @author kipsu
@@ -18,7 +20,7 @@ public class Number extends Node {
         this.value = value;
     }
 
-    public Double getValue() {
+    public Double getValue(Map map) {
         return value;
     }
     

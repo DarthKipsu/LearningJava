@@ -12,11 +12,15 @@ import java.util.Map;
  *
  * @author kipsu
  */
-public class Sub extends Node {
+public class Var extends Node {
     
-    public Double getValue(Map map) {
-        Double value = this.getLeft().getValue(map) - this.getRight().getValue(map);
-        return value;
+    private final char name;
+    
+    public Var(char name) {
+        this.name = name;
     }
-    
+
+    public Double getValue(Map map) {
+        return (Double)map.get(name);
+    }
 }

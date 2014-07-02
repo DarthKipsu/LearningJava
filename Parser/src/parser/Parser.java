@@ -6,6 +6,9 @@
 
 package parser;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author kipsu
@@ -69,6 +72,12 @@ public class Parser {
                     }
                     break;
                 default:
+                    if (Character.isLetter(input.charAt(index))) {
+                        System.out.println("x, " + input.charAt(index));
+                        Node var = new Var(input.charAt(index));
+                        tempNode = var;
+                        break;
+                    }
                     tempNode = null;
                     tempNum += input.charAt(index);
             }
@@ -116,6 +125,10 @@ public class Parser {
             if (input.charAt(index)=='(') {
                 index += 1;
                 tempNode = parse(input, ')');
+            } else if (Character.isLetter(input.charAt(index))) {
+                System.out.println("x, " + input.charAt(index));
+                Node var = new Var(input.charAt(index));
+                tempNode = var;
             } else if (input.charAt(index)!=' ') {
                 tempNum += input.charAt(index);
             }
@@ -132,8 +145,8 @@ public class Parser {
         
         Node node1 = parser.parse(input1);
         Node node2 = parser.parse(input2);
-        System.out.println(input1 + " = " + node1.getValue());
-        System.out.println(input2 + " = " + node2.getValue());
+        System.out.println(input1 + " = " + node1.getValue(new HashMap()));
+        System.out.println(input2 + " = " + node2.getValue(new HashMap()));
     }
     
 }
