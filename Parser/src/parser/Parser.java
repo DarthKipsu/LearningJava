@@ -14,18 +14,19 @@ public class Parser {
     
     public Node parse(String input) {
         index = 0;
+        tempNode = null;
+        tempNum = "";
         return parse(input, '\0');
     }
     
     private int index;
+    private Node tempNode;
+    private String tempNum;
     
     private Node parse(String input, char endChar) {
         Node root = new Sum();
         Node current = root;
-        Node tempNode = null;
-        String tempNum = "";
         for (; index<input.length() && input.charAt(index)!=endChar; index++) {
-            Number number;
             switch(input.charAt(index)) {
                 case ' ':
                 case ')':
@@ -39,84 +40,23 @@ public class Parser {
                     break;
                 case '*':
                     Node multi = new Multi();
-                    if (tempNode == null) {
-                        number = new Number(new Double(tempNum));
-                        multi.setLeft(number);
-                        tempNum = "";
-                    } else {
-                        multi.setLeft(tempNode);
-                        tempNode = null;
-                    }
-                    while (index+1<input.length()
-                        && input.charAt(index+1)!=endChar
-                        && input.charAt(index+1)!='*'
-                        && input.charAt(index+1)!='/'
-                        && input.charAt(index+1)!='+'
-                        && input.charAt(index+1)!='-') {
-                        index += 1;
-                        if (input.charAt(index)=='(') {
-                            index += 1;
-                            tempNode = parse(input, ')');
-                        } else if (input.charAt(index)!=' ') {
-                            tempNum += input.charAt(index);
-                        }
-                    }
-                    if (tempNode == null) {
-                        number = new Number(new Double(tempNum));
-                        multi.setRight(number);
-                        tempNum = "";
-                    } else {
-                        multi.setRight(tempNode);
-                        tempNode = null;
-                    }
+                    setLeftNode(multi);
+                    findRightTemp(input, endChar);
+                    setRightNode(multi);
                     tempNode = multi;
                     break;
                 case '/':
                     Node div = new Div();
-                    if (tempNode == null) {
-                        number = new Number(new Double(tempNum));
-                        div.setLeft(number);
-                        tempNum = "";
-                    } else {
-                        div.setLeft(tempNode);
-                        tempNode = null;
-                    }
-                    while (index+1<input.length()
-                        && input.charAt(index+1)!=endChar
-                        && input.charAt(index+1)!='*'
-                        && input.charAt(index+1)!='/'
-                        && input.charAt(index+1)!='+'
-                        && input.charAt(index+1)!='-') {
-                        index += 1;
-                        if (input.charAt(index)=='(') {
-                            index += 1;
-                            tempNode = parse(input, ')');
-                        } else if (input.charAt(index)!=' ') {
-                            tempNum += input.charAt(index);
-                        }
-                    }
-                    if (tempNode == null) {
-                        number = new Number(new Double(tempNum));
-                        div.setRight(number);
-                        tempNum = "";
-                    } else {
-                        div.setRight(tempNode);
-                        tempNode = null;
-                    }
+                    setLeftNode(div);
+                    findRightTemp(input, endChar);
+                    setRightNode(div);
                     tempNode = div;
                     break;
                 case '+':
                     Node sum = new Sum();
                     current.setRight(sum);
                     current = sum;
-                    if (tempNode == null) {
-                        number = new Number(new Double(tempNum));
-                        current.setLeft(number);
-                        tempNum = "";
-                    } else {
-                        current.setLeft(tempNode);
-                        tempNode = null;
-                    }
+                    setLeftNode(current);
                     break;
                 case '-':
                     if (index==0) {
@@ -125,14 +65,7 @@ public class Parser {
                         Node sub = new Sub();
                         current.setRight(sub);
                         current = sub;
-                        if (tempNode == null) {
-                            number = new Number(new Double(tempNum));
-                            current.setLeft(number);
-                            tempNum = "";
-                        } else {
-                            current.setLeft(tempNode);
-                            tempNode = null;
-                        }
+                        setLeftNode(current);
                     }
                     break;
                 default:
@@ -140,14 +73,53 @@ public class Parser {
                     tempNum += input.charAt(index);
             }
         }
+        setRightNode(current);
+        
+        return root.getRight();
+    }
+    
+    private void setLeftNode(Node current) {
+        
+        if (tempNode == null) {
+            Number number = new Number(new Double(tempNum));
+            current.setLeft(number);
+            tempNum = "";
+        } else {
+            current.setLeft(tempNode);
+            tempNode = null;
+        }
+        
+    }
+    
+    private void setRightNode(Node current) {
+        
         if (tempNode == null) {
             Number number = new Number(new Double(tempNum));
             current.setRight(number);
+            tempNum = "";
         } else {
             current.setRight(tempNode);
+            tempNode = null;
         }
         
-        return root.getRight();
+    }
+    
+    private void findRightTemp(String input, char endChar) {
+        
+        while (index+1<input.length()
+            && input.charAt(index+1)!=endChar
+            && input.charAt(index+1)!='*'
+            && input.charAt(index+1)!='/'
+            && input.charAt(index+1)!='+'
+            && input.charAt(index+1)!='-') {
+            index += 1;
+            if (input.charAt(index)=='(') {
+                index += 1;
+                tempNode = parse(input, ')');
+            } else if (input.charAt(index)!=' ') {
+                tempNum += input.charAt(index);
+            }
+        }
     }
 
     /**
