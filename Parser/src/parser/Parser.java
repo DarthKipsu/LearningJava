@@ -50,6 +50,7 @@ public class Parser {
                     while (index+1<input.length()
                         && input.charAt(index+1)!=endChar
                         && input.charAt(index+1)!='*'
+                        && input.charAt(index+1)!='/'
                         && input.charAt(index+1)!='+'
                         && input.charAt(index+1)!='-') {
                         index += 1;
@@ -69,6 +70,40 @@ public class Parser {
                         tempNode = null;
                     }
                     tempNode = multi;
+                    break;
+                case '/':
+                    Node div = new Div();
+                    if (tempNode == null) {
+                        number = new Number(new Double(tempNum));
+                        div.setLeft(number);
+                        tempNum = "";
+                    } else {
+                        div.setLeft(tempNode);
+                        tempNode = null;
+                    }
+                    while (index+1<input.length()
+                        && input.charAt(index+1)!=endChar
+                        && input.charAt(index+1)!='*'
+                        && input.charAt(index+1)!='/'
+                        && input.charAt(index+1)!='+'
+                        && input.charAt(index+1)!='-') {
+                        index += 1;
+                        if (input.charAt(index)=='(') {
+                            index += 1;
+                            tempNode = parse(input, ')');
+                        } else if (input.charAt(index)!=' ') {
+                            tempNum += input.charAt(index);
+                        }
+                    }
+                    if (tempNode == null) {
+                        number = new Number(new Double(tempNum));
+                        div.setRight(number);
+                        tempNum = "";
+                    } else {
+                        div.setRight(tempNode);
+                        tempNode = null;
+                    }
+                    tempNode = div;
                     break;
                 case '+':
                     Node sum = new Sum();
@@ -120,16 +155,13 @@ public class Parser {
      */
     public static void main(String[] args) {
         String input1 = "1 + 2";
-        String input2 = "5-(4+(2-1)-1)";
-        String input3 = "2+3*(3*4.5*1-5)*(4-2)*3";
+        String input2 = "2+3*(3/4.5*1-5)*(4-2)/3";
         Parser parser = new Parser();
         
         Node node1 = parser.parse(input1);
         Node node2 = parser.parse(input2);
-        Node node3 = parser.parse(input3);
         System.out.println(input1 + " = " + node1.getValue());
         System.out.println(input2 + " = " + node2.getValue());
-        System.out.println(input3 + " = " + node3.getValue());
     }
     
 }

@@ -262,4 +262,16 @@ public class ParserTest {
         
         assertEquals(expected1, value, 0.01);
     }
+    
+    @Test
+    public void division() {
+        String input = "1 - 2 * 3 / ( 4.5 + 6 / 2 )";
+        Parser parser = new Parser();
+        
+        Node node = parser.parse(input);
+        Double value = node.getValue();
+        double expected1 = 0.2;
+        
+        assertEquals(expected1, value, 0.01);
+    }
 }
