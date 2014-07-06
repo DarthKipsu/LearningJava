@@ -14,9 +14,9 @@ import java.util.Map;
  */
 public class Var extends Node {
     
-    private final char name;
+    private final String name;
     
-    public Var(char name) {
+    public Var(String name) {
         this.name = name;
     }
 

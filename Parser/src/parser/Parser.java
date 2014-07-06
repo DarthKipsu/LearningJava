@@ -20,12 +20,14 @@ public class Parser {
         index = 0;
         tempNode = null;
         tempNum = "";
+        tempVar = "";
         return parse(input, '\0');
     }
     
     private int index;
     private Node tempNode;
     private String tempNum;
+    private String tempVar;
     
     private Node parse(String input, char endChar) {
         Node root = new Sum();
@@ -36,6 +38,7 @@ public class Parser {
                 case ')':
                     break;
                 case ',':
+                case '.':
                     tempNum += '.';
                     break;
                 case '(':
@@ -73,12 +76,12 @@ public class Parser {
                     }
                     break;
                 default:
-                    if (isLetter(input.charAt(index))) {
+                    if (isDigit(input.charAt(index))) {
+                        tempNode = null;
+                        tempNum += input.charAt(index);
+                    } else {
                         setVariableToTemp(input);
-                        break;
                     }
-                    tempNode = null;
-                    tempNum += input.charAt(index);
             }
         }
         setRightNode(current);
@@ -125,8 +128,8 @@ public class Parser {
                 index += 1;
                 tempNode = parse(input, ')');
             } else if (isLetter(input.charAt(index))) {
-                Node var = new Var(input.charAt(index));
-                tempNode = var;
+                //Node var = new Var(input.charAt(index));
+                //tempNode = var;
             } else if (input.charAt(index)!=' ') {
                 tempNum += input.charAt(index);
             }
@@ -134,16 +137,24 @@ public class Parser {
     }
     
     private void setVariableToTemp(String input) {
-        Node var = new Var(input.charAt(index));
-        if (index!=0 && (isDigit(input.charAt(index-1))
-        || isLetter(input.charAt(index-1)))) {
-            Multi multi = new Multi();
-            setLeftNode(multi);
-            tempNode = var;
-            setRightNode(multi);
-            tempNode = multi;
-        } else {
-            tempNode = var;
+        if (index!=0 && !isDigit(input.charAt(index-1)) &&
+            !isLetter(input.charAt(index-1))) {
+            tempNum = "";
+        }
+        tempVar += input.charAt(index);
+        if ((index<input.length()-1 && !isLetter(input.charAt(index+1))) ||
+            index==input.length()-1) {
+            Node var = new Var(tempVar);
+            tempVar = "";
+            if (!"".equals(tempNum)) {
+                Multi multi = new Multi();
+                setLeftNode(multi);
+                tempNode = var;
+                setRightNode(multi);
+                tempNode = multi;
+            } else {
+                tempNode = var;
+            }
         }
     }
 
