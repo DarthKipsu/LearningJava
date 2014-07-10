@@ -8,7 +8,9 @@ package parser;
 
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isLetter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -28,6 +30,7 @@ public class Parser {
     private Node tempNode;
     private String tempNum;
     private String tempVar;
+    private List<Node> tempList;
     
     private Node parse(String input, char endChar) {
         Node root = new Sum();
@@ -44,6 +47,9 @@ public class Parser {
                 case '(':
                     index += 1;
                     tempNode = parse(input, ')');
+                    break;
+                case ';':
+                    addToTempList();
                     break;
                 case '*':
                     Node multi = new Multi();
@@ -115,6 +121,19 @@ public class Parser {
         
     }
     
+    private void addToTempList() {
+        
+        if (tempNode == null) {
+            Number number = new Number(new Double(tempNum));
+            tempList.add(number);
+            tempNum = "";
+        } else {
+            tempList.add(tempNode);
+            tempNode = null;
+        }
+        
+    }
+    
     private void findRightTemp(String input, char endChar) {
         
         while (index+1<input.length()
@@ -144,16 +163,28 @@ public class Parser {
         tempVar += input.charAt(index);
         if ((index<input.length()-1 && !isLetter(input.charAt(index+1))) ||
             index==input.length()-1) {
-            Node var = new Var(tempVar);
-            tempVar = "";
-            if (!"".equals(tempNum)) {
-                Multi multi = new Multi();
-                setLeftNode(multi);
-                tempNode = var;
-                setRightNode(multi);
-                tempNode = multi;
+            
+            if (index<input.length()-1 && input.charAt(index+1)=='(') {
+                tempList = new ArrayList();
+                String name = tempVar;
+                index += 2;
+                Node right = parse(input, ')');
+                System.out.println("right: " + right.getValue(new HashMap(), new HashMap()));
+                tempList.add(right);
+                Function function = new Function(name, tempList);
+                tempNode = function;
             } else {
-                tempNode = var;
+                Node var = new Var(tempVar);
+                tempVar = "";
+                if (!"".equals(tempNum)) {
+                    Multi multi = new Multi();
+                    setLeftNode(multi);
+                    tempNode = var;
+                    setRightNode(multi);
+                    tempNode = multi;
+                } else {
+                    tempNode = var;
+                }
             }
         }
     }
@@ -168,8 +199,8 @@ public class Parser {
         
         Node node1 = parser.parse(input1);
         Node node2 = parser.parse(input2);
-        System.out.println(input1 + " = " + node1.getValue(new HashMap()));
-        System.out.println(input2 + " = " + node2.getValue(new HashMap()));
+        System.out.println(input1 + " = " + node1.getValue(new HashMap(), new HashMap()));
+        System.out.println(input2 + " = " + node2.getValue(new HashMap(), new HashMap()));
     }
     
 }

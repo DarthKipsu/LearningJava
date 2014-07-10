@@ -32,6 +32,6 @@ public abstract class Node {
         this.right = right;
     }
     
-    public abstract Double getValue(Map map);
+    public abstract Double getValue(Map<String, Double> variables, Map<String, FunctionInterface> functions);
     
 }

@@ -20,7 +20,7 @@ public class Number extends Node {
         this.value = value;
     }
 
-    public Double getValue(Map map) {
+    public Double getValue(Map variables, Map functions) {
         return value;
     }
     

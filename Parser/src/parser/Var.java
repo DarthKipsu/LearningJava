@@ -20,7 +20,7 @@ public class Var extends Node {
         this.name = name;
     }
 
-    public Double getValue(Map map) {
-        return (Double)map.get(name);
+    public Double getValue(Map variables, Map functions) {
+        return (Double)variables.get(name);
     }
 }

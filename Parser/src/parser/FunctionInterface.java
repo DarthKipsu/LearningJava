@@ -6,17 +6,17 @@
 
 package parser;
 
+import java.util.List;
 import java.util.Map;
 
 /**
  *
  * @author kipsu
  */
-public class Sub extends Node {
+
+@FunctionalInterface
+public interface FunctionInterface {
     
-    public Double getValue(Map variables, Map functions) {
-        Double value = this.getLeft().getValue(variables, functions) - this.getRight().getValue(variables, functions);
-        return value;
-    }
+    public Double execute(List<Node> children, Map<String, Double> variables, Map<String, FunctionInterface> functions);
     
 }

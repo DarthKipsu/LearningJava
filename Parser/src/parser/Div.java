@@ -14,8 +14,8 @@ import java.util.Map;
  */
 public class Div extends Node {
     
-    public Double getValue(Map map) {
-        Double value = this.getLeft().getValue(map) / this.getRight().getValue(map);
+    public Double getValue(Map variables, Map functions) {
+        Double value = this.getLeft().getValue(variables, functions) / this.getRight().getValue(variables, functions);
         return value;
     }
     
