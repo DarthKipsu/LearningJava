@@ -348,7 +348,7 @@ public class ParserTest {
     }
     
     @Test
-    public void square() {
+    public void power() {
         String input = "pow(3 ; 2)";
         Parser parser = new Parser();
         
@@ -365,6 +365,80 @@ public class ParserTest {
         func.put("pow", pow);
         Double value = node.getValue(new HashMap(), func);
         double expected1 = 9.0;
+        
+        assertEquals(expected1, value, 0.01);
+    }
+    
+    @Test
+    public void multiplicationInsideFunction() {
+        String input = "pow(6+2;3)";
+        Parser parser = new Parser();
+        Map<String, FunctionInterface> func = new HashMap();
+        
+        FunctionInterface pow = (children, variables, function) ->
+            (Double)Math.pow(
+                children.get(0).getValue(variables, function), 
+                children.get(1).getValue(variables, function)
+            );
+        
+        func.put("pow", pow);
+        
+        Node node = parser.parse(input);
+        Double value = node.getValue(new HashMap(), func);
+        double expected = 512.0;
+        
+        assertEquals(expected, value, 0.01);
+    }
+    
+    @Test
+    public void functionWithVariable() {
+        String input = "SQRT(2x)";
+        Parser parser = new Parser();
+        Map<String, FunctionInterface> func = new HashMap();
+        
+        FunctionInterface sqrt = (children, variables, function) ->
+            Math.sqrt(
+                children.get(0).getValue(variables, function)
+            );
+        
+        Map<String, Double> map = new HashMap();
+        map.put("x", 2.0);
+        
+        func.put("SQRT", sqrt);
+        
+        Node node = parser.parse(input);
+        Double value = node.getValue(map, func);
+        double expected1 = 2.0;
+        
+        assertEquals(expected1, value, 0.01);
+    }
+    
+    @Test
+    public void multipleFunctionsWithVariables() {
+        String input = "5 + pow(6+2;3)-SQRT(2x)*2";
+        Parser parser = new Parser();
+        Map<String, FunctionInterface> func = new HashMap();
+        
+        FunctionInterface pow = (children, variables, function) ->
+            (Double)Math.pow(
+                children.get(0).getValue(variables, function), 
+                children.get(1).getValue(variables, function)
+            );
+        
+        FunctionInterface sqrt = (children, variables, function) ->
+            Math.sqrt(
+                children.get(0).getValue(variables, function)
+            );
+        
+        Map<String, Double> map = new HashMap();
+        map.put("x", 2.0);
+        
+        func.put("pow", pow);
+        func.put("SQRT", sqrt);
+        
+        Node node = parser.parse(input);
+        Double value = node.getValue(map, func);
+        double expected1 = 513.0;
         
         assertEquals(expected1, value, 0.01);
     }

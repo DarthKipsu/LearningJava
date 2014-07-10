@@ -49,6 +49,7 @@ public class Parser {
                     tempNode = parse(input, ')');
                     break;
                 case ';':
+                    // This returns only 2 from 6+2 and not the 6+. No node was yet created?
                     addToTempList();
                     break;
                 case '*':
@@ -167,9 +168,10 @@ public class Parser {
             if (index<input.length()-1 && input.charAt(index+1)=='(') {
                 tempList = new ArrayList();
                 String name = tempVar;
+                tempVar = "";
                 index += 2;
                 Node right = parse(input, ')');
-                System.out.println("right: " + right.getValue(new HashMap(), new HashMap()));
+                //System.out.println("right: " + right.getValue(new HashMap(), new HashMap()));
                 tempList.add(right);
                 Function function = new Function(name, tempList);
                 tempNode = function;
